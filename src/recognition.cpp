@@ -1210,12 +1210,12 @@ Eigen::Vector3f recognition::getStairScoreCirc()
 		if(clockWise)
 		{
 			rotMatrix(0,1) = sind(angleDiff*(tempPatch.segmentLabel-0.5));
-			rotMatrix(1.0) = -sind(angleDiff*(tempPatch.segmentLabel-0.5));
+			rotMatrix(1,0) = -sind(angleDiff*(tempPatch.segmentLabel-0.5));
 		}
 		else
 		{
 			rotMatrix(0,1) = -sind(angleDiff*(tempPatch.segmentLabel-0.5));
-			rotMatrix(1.0) = sind(angleDiff*(tempPatch.segmentLabel-0.5));
+			rotMatrix(1,0) = sind(angleDiff*(tempPatch.segmentLabel-0.5));
 		}
 		rotMatrix(1,1) = cosd(angleDiff*(tempPatch.segmentLabel-0.5));
 		projNorm = distVec.head(2).transpose() * rotMatrix;
@@ -1234,12 +1234,12 @@ Eigen::Vector3f recognition::getStairScoreCirc()
 			if(clockWise)
 			{
 				rotMatrix(0,1) = sind(angleDiff*ext);
-				rotMatrix(1.0) = -sind(angleDiff*ext);
+				rotMatrix(1,0) = -sind(angleDiff*ext);
 			}
 			else
 			{
 				rotMatrix(0,1) = -sind(angleDiff*ext);
-				rotMatrix(1.0) = sind(angleDiff*ext);
+				rotMatrix(1,0) = sind(angleDiff*ext);
 			}
 			rotMatrix(1,1) = cosd(angleDiff*ext);
 			if(tempPatch.segmentLabel<0)
@@ -1336,12 +1336,12 @@ bool recognition::widthReqCirc(segmentPatch& testPatch, int stairNo)
 	if(clockWise)
 	{
 		rotMatrix(0,1) = sind(angleDiff*(stairNo-0.5));
-		rotMatrix(1.0) = -sind(angleDiff*(stairNo-0.5));
+		rotMatrix(1,0) = -sind(angleDiff*(stairNo-0.5));
 	}
 	else
 	{
 		rotMatrix(0,1) = -sind(angleDiff*(stairNo-0.5));
-		rotMatrix(1.0) = sind(angleDiff*(stairNo-0.5));
+		rotMatrix(1,0) = sind(angleDiff*(stairNo-0.5));
 	}
 	rotMatrix(1,1) = cosd(angleDiff*(stairNo-0.5));
 	projNorm.head(2) = distVec.head(2).transpose() * rotMatrix;
@@ -1361,12 +1361,12 @@ bool recognition::widthReqCirc(segmentPatch& testPatch, int stairNo)
 		if(clockWise)
 		{
 			rotMatrix(0,1) = sind(angleDiff*ext);
-			rotMatrix(1.0) = -sind(angleDiff*ext);
+			rotMatrix(1,0) = -sind(angleDiff*ext);
 		}
 		else
 		{
 			rotMatrix(0,1) = -sind(angleDiff*ext);
-			rotMatrix(1.0) = sind(angleDiff*ext);
+			rotMatrix(1,0) = sind(angleDiff*ext);
 		}
 		rotMatrix(1,1) = cosd(angleDiff*ext);
 		if(stairNo<0)
@@ -1584,12 +1584,12 @@ void recognition::find()
 					if(clockWise)
 					{
 						rotMatrix(0,1) = sind(angleDiff*direction*ext);
-						rotMatrix(1.0) = -sind(angleDiff*direction*ext);
+						rotMatrix(1,0) = -sind(angleDiff*direction*ext);
 					}
 					else
 					{
 						rotMatrix(0,1) = -sind(angleDiff*direction*ext);
-						rotMatrix(1.0) = sind(angleDiff*direction*ext);
+						rotMatrix(1,0) = sind(angleDiff*direction*ext);
 					}
 					rotMatrix(1,1) = cosd(angleDiff*direction*ext);
 					if(direction>0)
@@ -1831,12 +1831,12 @@ bool recognition::isStairRiseMatch(int regPos, int stairNo)
 			if(clockWise)
 			{
 				rotMatrix(0,1) = sind(angleDiff*(stairNo-0.5));
-				rotMatrix(1.0) = -sind(angleDiff*(stairNo-0.5));
+				rotMatrix(1,0) = -sind(angleDiff*(stairNo-0.5));
 			}
 			else
 			{
 				rotMatrix(0,1) = -sind(angleDiff*(stairNo-0.5));
-				rotMatrix(1.0) = sind(angleDiff*(stairNo-0.5));
+				rotMatrix(1,0) = sind(angleDiff*(stairNo-0.5));
 			}
 			rotMatrix(1,1) = cosd(angleDiff*(stairNo-0.5));
 			projNorm = distVec.head(2).transpose() * rotMatrix;
@@ -1859,12 +1859,12 @@ bool recognition::isStairRiseMatch(int regPos, int stairNo)
     				if(clockWise)
     				{
     					rotMatrix(0,1) = sind(angleDiff*ext);
-    					rotMatrix(1.0) = -sind(angleDiff*ext);
+    					rotMatrix(1,0) = -sind(angleDiff*ext);
     				}
     				else
     				{
     					rotMatrix(0,1) = -sind(angleDiff*ext);
-    					rotMatrix(1.0) = sind(angleDiff*ext);
+    					rotMatrix(1,0) = sind(angleDiff*ext);
     				}
     				rotMatrix(1,1) = cosd(angleDiff*ext);
     				if(stairNo<0)
@@ -2046,12 +2046,12 @@ bool recognition::isStairTreadMatch(int regPos, int stairNo)
 				if(clockWise)
 				{
 					rotMatrix(0,1) = sind(angleDiff*ext);
-					rotMatrix(1.0) = -sind(angleDiff*ext);
+					rotMatrix(1,0) = -sind(angleDiff*ext);
 				}
 				else
 				{
 					rotMatrix(0,1) = -sind(angleDiff*ext);
-					rotMatrix(1.0) = sind(angleDiff*ext);
+					rotMatrix(1,0) = sind(angleDiff*ext);
 				}
 				rotMatrix(1,1) = cosd(angleDiff*ext);
 				if(stairNo<0)
@@ -2073,12 +2073,12 @@ bool recognition::isStairTreadMatch(int regPos, int stairNo)
 				if(clockWise)
 				{
 					rotMatrix(0,1) = sind(angleDiff*ext);
-					rotMatrix(1.0) = -sind(angleDiff*ext);
+					rotMatrix(1,0) = -sind(angleDiff*ext);
 				}
 				else
 				{
 					rotMatrix(0,1) = -sind(angleDiff*ext);
-					rotMatrix(1.0) = sind(angleDiff*ext);
+					rotMatrix(1,0) = sind(angleDiff*ext);
 				}
 				rotMatrix(1,1) = cosd(angleDiff*ext);
 				if(stairNo<0)
@@ -2095,12 +2095,12 @@ bool recognition::isStairTreadMatch(int regPos, int stairNo)
 			if(clockWise)
 			{
 				rotMatrix(0,1) = sind(angleDiff*(stairNo - 0.5));
-				rotMatrix(1.0) = -sind(angleDiff*(stairNo - 0.5));
+				rotMatrix(1,0) = -sind(angleDiff*(stairNo - 0.5));
 			}
 			else
 			{
 				rotMatrix(0,1) = -sind(angleDiff*(stairNo - 0.5));
-				rotMatrix(1.0) = sind(angleDiff*(stairNo - 0.5));
+				rotMatrix(1,0) = sind(angleDiff*(stairNo - 0.5));
 			}
 			rotMatrix(1,1) = cosd(angleDiff*(stairNo - 0.5));
 			Eigen::Vector2f projNormUpper;
@@ -2111,12 +2111,12 @@ bool recognition::isStairTreadMatch(int regPos, int stairNo)
 			if(clockWise)
 			{
 				rotMatrix(0,1) = sind(angleDiff*(stairNo + 0.5));
-				rotMatrix(1.0) = -sind(angleDiff*(stairNo + 0.5));
+				rotMatrix(1,0) = -sind(angleDiff*(stairNo + 0.5));
 			}
 			else
 			{
 				rotMatrix(0,1) = -sind(angleDiff*(stairNo + 0.5));
-				rotMatrix(1.0) = sind(angleDiff*(stairNo + 0.5));
+				rotMatrix(1,0) = sind(angleDiff*(stairNo + 0.5));
 			}
 			rotMatrix(1,1) = cosd(angleDiff*(stairNo));
 			Eigen::Vector2f projNormLower;
@@ -2257,12 +2257,12 @@ void recognition::findStairRailCirc(Stairs& input)
 		if(input.clockwise)
 		{
 			rotMatrix(0,1) = sind(input.angleDiff*(stepIdx-0.5));
-			rotMatrix(1.0) = -sind(input.angleDiff*(stepIdx-0.5));
+			rotMatrix(1,0) = -sind(input.angleDiff*(stepIdx-0.5));
 		}
 		else
 		{
 			rotMatrix(0,1) = -sind(input.angleDiff*(stepIdx-0.5));
-			rotMatrix(1.0) = sind(input.angleDiff*(stepIdx-0.5));
+			rotMatrix(1,0) = sind(input.angleDiff*(stepIdx-0.5));
 		}
 		rotMatrix(1,1) = cosd(input.angleDiff*(stepIdx-0.5));
 		projNorm.head(2) = input.dir.head(2).transpose() * rotMatrix;
@@ -2288,12 +2288,12 @@ void recognition::findStairRailCirc(Stairs& input)
 			if(input.clockwise)
 			{
 				rotMatrix(0,1) = sind(input.angleDiff*ext);
-				rotMatrix(1.0) = -sind(input.angleDiff*ext);
+				rotMatrix(1,0) = -sind(input.angleDiff*ext);
 			}
 			else
 			{
 				rotMatrix(0,1) = -sind(input.angleDiff*ext);
-				rotMatrix(1.0) = sind(input.angleDiff*ext);
+				rotMatrix(1,0) = sind(input.angleDiff*ext);
 			}
 			rotMatrix(1,1) = cosd(input.angleDiff*ext);
 			if(stepIdx<0)
@@ -2434,9 +2434,9 @@ void recognition::optimizeCoefficients()
 //  Stair direction
 //  Stair height
 
-	  int n_unknowns = 5;
-	  VectorX x (n_unknowns);
-	  x.setZero ();
+	int n_unknowns = 5;
+	VectorX x (n_unknowns);
+	x.setZero ();
 
 		int minLab = 90;
 		int maxLab = -90;
@@ -2462,24 +2462,24 @@ void recognition::optimizeCoefficients()
 		int dataPoints = stepSize*7 + stepSize*3;
 //	  int dataPoints = stairRises.size()*7 + stairTreads.size()*3;
 
-	  OptimizationFunctor functor (dataPoints, this);
-	  Eigen::NumericalDiff<OptimizationFunctor> num_diff (functor);
+	OptimizationFunctor functor (dataPoints, this);
+	Eigen::NumericalDiff<OptimizationFunctor> num_diff (functor);
 	  //Eigen::LevenbergMarquardt<Eigen::NumericalDiff<OptimizationFunctor>, double> lm (num_diff);
-	  Eigen::LevenbergMarquardt<Eigen::NumericalDiff<OptimizationFunctor>, float> lm (num_diff);
+	Eigen::LevenbergMarquardt<Eigen::NumericalDiff<OptimizationFunctor>, float> lm (num_diff);
 
-	  int info = lm.minimize (x);
+	int info = lm.minimize (x);
 
-	  // Compute the norm of the residuals
-	  Eigen::Vector3f changeVec;
-	  changeVec.head(2) = distVec.head(2) * x[0];
-	  changeVec[2] = x[1];
+	// Compute the norm of the residuals
+	Eigen::Vector3f changeVec;
+	changeVec.head(2) = distVec.head(2) * x[0];
+	changeVec[2] = x[1];
 
-	  Eigen::Matrix<float,5,1> blub;
-	  blub << 0,0,0,0,0;
+	Eigen::Matrix<float,5,1> blub;
+	blub << 0,0,0,0,0;
 //	  std::cout<<"Error: "<<(computeDistance(blub,stairRises,stairTreads)).norm()/dataPoints<<std::endl;
 
-	  stairPos=stairPos + changeVec;
-	  distVec=distVec + x.tail(3);
+	stairPos=stairPos + changeVec;
+	distVec=distVec + x.tail(3);
 }
 
 

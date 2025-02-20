@@ -27,7 +27,8 @@ typedef pcl::PointCloud<PointNT> PointCloudN;
 typedef pcl::PointCloud<Normal> NormalCloud;
 typedef pcl::PointCloud<PointTC> PointCloudC;
 
-typedef boost::shared_ptr <std::vector<int> > IndicesPtr;
+// typedef boost::shared_ptr <std::vector<int> > IndicesPtr;
+typedef std::shared_ptr <std::vector<int> > IndicesPtr;
 
 typedef typename pcl::octree::OctreePointCloud<pcl::PointXYZ> OctreeT;
 typedef typename OctreeT::LeafContainer LeafContainer;
@@ -98,21 +99,21 @@ public:
     }
     inline void setHorizontalMeasurementAngle(float input)
     {
-    	measureHorAng = input/180*M_PI;
+        measureHorAng = input/180*M_PI;
     }
     inline void setVerticalMeasurementAngle(Eigen::Vector2f input)
     {
-    	measureVerAng = input/180*M_PI;
+        measureVerAng = input/180*M_PI;
     }
 
     inline void getNeighTime (double& output)
     {
-    	output = overallNeighTime;
+        output = overallNeighTime;
     }
 
     inline void setPointIDConsistency(bool value)
     {
-    	pointConsistency = value;
+        pointConsistency = value;
     }
 
 
@@ -144,11 +145,11 @@ public:
     }
     inline void setPlaneSacGrowFactor (float value)
     {
-    	planeSacGrow = value;
+        planeSacGrow = value;
     }
     inline void setPlaneSacCompFlag(bool value)
     {
-    	angularGrowCompFlag = value;
+        angularGrowCompFlag = value;
     }
 
 
@@ -158,15 +159,15 @@ public:
     }
     inline void setPlaneInitMaxAng(float value)
     {
-    	maxInitAng = cos(value/180.0*M_PI);
+        maxInitAng = cos(value/180.0*M_PI);
     }
     inline void setAngularInitCompFlag(bool value)
     {
-    	angularInitCompFlag = value;
+        angularInitCompFlag = value;
     }
     inline void setPlaneInitDensity(float value)
     {
-    	std::cout<<value<<std::endl;
+        std::cout<<value<<std::endl;
         initDensity=value;
     }
     inline void setSampleDensity(float value)
@@ -185,11 +186,11 @@ public:
     }
     inline void setDecreaseGrowFactor (int value)
     {
-    	decGrowSize = value;
+        decGrowSize = value;
     }
     inline void setMinGrowSize(float size)
     {
-    	minGrowSize=size;
+        minGrowSize=size;
     }
 
 

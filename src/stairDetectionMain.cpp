@@ -22,10 +22,16 @@ typedef pcl::PointCloud<PointNT> PointCloudN;
 typedef pcl::PointCloud<Normal> NormalCloud;
 typedef pcl::PointCloud<PointTC> PointCloudC;
 
+// #include <iostream>
+#include <chrono>
+// #include <thread>
 
 int main (int argc, char *argv[])
 {  
-	if(argc < 3)
+	// 計測開始
+    auto start = std::chrono::high_resolution_clock::now();
+
+    if(argc < 3)
 	{
 		std::cerr << "Not enough arguments - " << argv[0] << " <input pcd> <output pcd>" << std::endl;
 		return 1;
@@ -200,5 +206,13 @@ int main (int argc, char *argv[])
         std::cout<<"Saving result pointcloud"<<std::endl;
         pcl::io::savePCDFile(argv[2],resultCloud);
     }
+
+    // 計測終了
+    auto end = std::chrono::high_resolution_clock::now();
+
+    // 経過時間を計算（ミリ秒単位）
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    std::cout << "Elapsed time: " << duration.count() << " ms" << std::endl;
 }
 

@@ -210,9 +210,12 @@ void Preanalysis::normalEstimation()
 
 	// Floor separation //
 //	std::vector<int> floorPoints;
-	boost::shared_ptr <std::vector<int> > flIndicesPtr (new std::vector<int>);
-	boost::shared_ptr <std::vector<int> > gpIndicesPtr (new std::vector<int>);
-	boost::shared_ptr <std::vector<int> > npIndicesPtr (new std::vector<int>);
+	// boost::shared_ptr <std::vector<int> > flIndicesPtr (new std::vector<int>);
+	// boost::shared_ptr <std::vector<int> > gpIndicesPtr (new std::vector<int>);
+	// boost::shared_ptr <std::vector<int> > npIndicesPtr (new std::vector<int>);
+    std::shared_ptr <std::vector<int> > flIndicesPtr (new std::vector<int>);
+	std::shared_ptr <std::vector<int> > gpIndicesPtr (new std::vector<int>);
+	std::shared_ptr <std::vector<int> > npIndicesPtr (new std::vector<int>);
 
 //	std::vector<int>::pointer floorPtr;
 //	floorPtr = &floorPoints;
@@ -220,7 +223,8 @@ void Preanalysis::normalEstimation()
 	ne.getGhostIndices(*gpIndicesPtr);
 	ne.getNormalIndices(*npIndicesPtr);
 
-	boost::shared_ptr <std::vector<int> > wholeIndicesPtr (new std::vector<int>);
+	// boost::shared_ptr <std::vector<int> > wholeIndicesPtr (new std::vector<int>);
+    std::shared_ptr <std::vector<int> > wholeIndicesPtr (new std::vector<int>);
 
 	wholeIndicesPtr->reserve( flIndicesPtr->size() + gpIndicesPtr->size() + npIndicesPtr->size()); // preallocate memory
 	wholeIndicesPtr->insert( wholeIndicesPtr->end(), flIndicesPtr->begin(), flIndicesPtr->end() );
@@ -284,58 +288,58 @@ void Preanalysis::ghostPointFilter()
 
 void Preanalysis::floorExtraction()
 {
-   float z_low = -fsRange/2;
-   float z_high = -z_low;
+    float z_low = -fsRange/2;
+    float z_high = -z_low;
 
-   PointCloudT floorlessPC;
-   NormalCloud floorlessNormal;
+    PointCloudT floorlessPC;
+    NormalCloud floorlessNormal;
 
-   Indices floorIndices;
-   Indices floorlessIndices;
+    Indices floorIndices;
+    Indices floorlessIndices;
 
-   for(size_t filtCounter=0;filtCounter < pc->size();filtCounter++)
-   {
-       if(pc->at(filtCounter).z < z_high && pc->at(filtCounter).z > z_low)
-       {
-           floorPC.push_back(pc->at(filtCounter));
-           floorNormal.push_back(normal_cloud->at(filtCounter));
-           floorIndices.push_back(filtCounter);
-       }
-       else
-       {
-           floorlessPC.push_back(pc->at(filtCounter));
-           floorlessNormal.push_back(normal_cloud->at(filtCounter));
-           floorlessIndices.push_back(filtCounter);
-       }
-   }
+    for(size_t filtCounter=0;filtCounter < pc->size();filtCounter++)
+    {
+        if(pc->at(filtCounter).z < z_high && pc->at(filtCounter).z > z_low)
+        {
+            floorPC.push_back(pc->at(filtCounter));
+            floorNormal.push_back(normal_cloud->at(filtCounter));
+            floorIndices.push_back(filtCounter);
+        }
+        else
+        {
+            floorlessPC.push_back(pc->at(filtCounter));
+            floorlessNormal.push_back(normal_cloud->at(filtCounter));
+            floorlessIndices.push_back(filtCounter);
+        }
+    }
 
-   Eigen::Vector3f zAxis;
-   zAxis << 0,0,1;
-   Eigen::Vector3f currNorm;
+    Eigen::Vector3f zAxis;
+    zAxis << 0,0,1;
+    Eigen::Vector3f currNorm;
 
-   for(size_t pointCounter=0;pointCounter<floorIndices.size();pointCounter++)
-   {
-       currNorm[0]=normal_cloud->at(floorIndices.at(pointCounter)).normal_x;
-       currNorm[1]=normal_cloud->at(floorIndices.at(pointCounter)).normal_y;
-       currNorm[2]=normal_cloud->at(floorIndices.at(pointCounter)).normal_z;
+    for(size_t pointCounter=0;pointCounter<floorIndices.size();pointCounter++)
+    {
+        currNorm[0]=normal_cloud->at(floorIndices.at(pointCounter)).normal_x;
+        currNorm[1]=normal_cloud->at(floorIndices.at(pointCounter)).normal_y;
+        currNorm[2]=normal_cloud->at(floorIndices.at(pointCounter)).normal_z;
 
-       if(acos(fabs(zAxis.dot(currNorm)))/M_PI*180 > fsAngle)
-       {
-           floorlessPC.push_back(floorPC.at(pointCounter));
-           floorlessNormal.push_back(floorNormal.at(pointCounter));
-           floorlessIndices.push_back(floorIndices.at(pointCounter));
+        if(acos(fabs(zAxis.dot(currNorm)))/M_PI*180 > fsAngle)
+        {
+            floorlessPC.push_back(floorPC.at(pointCounter));
+            floorlessNormal.push_back(floorNormal.at(pointCounter));
+            floorlessIndices.push_back(floorIndices.at(pointCounter));
 
-           floorPC.erase(floorPC.begin()+pointCounter,floorPC.begin()+pointCounter+1);
-           floorNormal.erase(floorNormal.begin()+pointCounter,floorNormal.begin()+pointCounter+1);
-           floorIndices.erase(floorIndices.begin()+pointCounter,floorIndices.begin()+pointCounter+1);
-           pointCounter--;
-           if(floorPC.size() == 0)
-           {
-               std::cout<<"NO FLOOR DETECTED"<<std::endl;
-           }
-       }
-   }
-   *pc = floorlessPC;
-   *normal_cloud = floorlessNormal;
+            floorPC.erase(floorPC.begin()+pointCounter,floorPC.begin()+pointCounter+1);
+            floorNormal.erase(floorNormal.begin()+pointCounter,floorNormal.begin()+pointCounter+1);
+            floorIndices.erase(floorIndices.begin()+pointCounter,floorIndices.begin()+pointCounter+1);
+            pointCounter--;
+            if(floorPC.size() == 0)
+            {
+                std::cout<<"NO FLOOR DETECTED"<<std::endl;
+            }
+        }
+    }
+    *pc = floorlessPC;
+    *normal_cloud = floorlessNormal;
 
 }

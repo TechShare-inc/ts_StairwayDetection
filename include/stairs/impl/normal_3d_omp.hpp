@@ -62,8 +62,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
   // Save a few cycles by not checking every point for NaN/Inf values if the cloud is set to dense
   if (input_->is_dense)
   {
-	  if(gpActive && fsActive && pfActive)
-	  {
+    if(gpActive && fsActive && pfActive)
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -78,8 +78,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
                           
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -93,18 +93,18 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       //Floor separation
       if(fabs(input_->points[idx].z) < fsRange)
       {
-    	  if(fabs(output.points[idx].normal_z) > fsAngle)
-    	  {
-    		  floorPositions[idx] = true;
-    		  continue;
-    	  }
+        if(fabs(output.points[idx].normal_z) > fsAngle)
+        {
+          floorPositions[idx] = true;
+          continue;
+        }
       }
 
       //Normal filtration
       if(fabs(n[2]) < pfAngleHigh && fabs(n[2]) > pfAngleLow)
       {
-    	  normalFilterPos[idx]=true;
-    	  continue;
+        normalFilterPos[idx]=true;
+        continue;
       }
 
       //Ghost point elimination
@@ -114,23 +114,23 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       pointPos.normalize();
       if( fabs(pointPos.dot(n.head(3))) < gpAngle )
       {
-    	  ghostPointsPos[idx]=true;
-    	  continue;
+        ghostPointsPos[idx]=true;
+        continue;
       }
 
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(floorPositions[copyIdx])
-		  floorIndices.push_back(copyIdx);
-	  if(ghostPointsPos[copyIdx])
-		  ghostPointIndices.push_back(copyIdx);
-	  if(normalFilterPos[copyIdx])
-		  normalFilterIndices.push_back(copyIdx);
+    if(floorPositions[copyIdx])
+      floorIndices.push_back(copyIdx);
+    if(ghostPointsPos[copyIdx])
+      ghostPointIndices.push_back(copyIdx);
+    if(normalFilterPos[copyIdx])
+      normalFilterIndices.push_back(copyIdx);
   }
   }
-	  else  if(gpActive && fsActive && not(pfActive))
-	  {
+    else  if(gpActive && fsActive && not(pfActive))
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -145,8 +145,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -160,11 +160,11 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       //Floor separation
       if(fabs(input_->points[idx].z) < fsRange)
       {
-    	  if(fabs(output.points[idx].normal_z) > fsAngle)
-    	  {
-    		  floorPositions[idx] = true;
-    		  continue;
-    	  }
+        if(fabs(output.points[idx].normal_z) > fsAngle)
+        {
+          floorPositions[idx] = true;
+          continue;
+        }
       }
 
       //Ghost point elimination
@@ -174,20 +174,20 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       pointPos.normalize();
       if( fabs(pointPos.dot(n.head(3))) < gpAngle )
       {
-    	  ghostPointsPos[idx]=true;
-    	  continue;
+        ghostPointsPos[idx]=true;
+        continue;
       }
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(floorPositions[copyIdx])
-		  floorIndices.push_back(copyIdx);
-	  if(ghostPointsPos[copyIdx])
-		  ghostPointIndices.push_back(copyIdx);
+    if(floorPositions[copyIdx])
+      floorIndices.push_back(copyIdx);
+    if(ghostPointsPos[copyIdx])
+      ghostPointIndices.push_back(copyIdx);
   }
   }
-	  else  if(gpActive && not(fsActive) && pfActive)
-	  {
+    else  if(gpActive && not(fsActive) && pfActive)
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -202,8 +202,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -217,8 +217,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       //Normal filtration
       if(fabs(n[2]) < pfAngleHigh && fabs(n[2]) > pfAngleLow)
       {
-    	  normalFilterPos[idx]=true;
-    	  continue;
+        normalFilterPos[idx]=true;
+        continue;
       }
 
       //Ghost point elimination
@@ -228,20 +228,20 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       pointPos.normalize();
       if( fabs(pointPos.dot(n.head(3))) < gpAngle )
       {
-    	  ghostPointsPos[idx]=true;
-    	  continue;
+        ghostPointsPos[idx]=true;
+        continue;
       }
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(ghostPointsPos[copyIdx])
-		  ghostPointIndices.push_back(copyIdx);
-	  if(normalFilterPos[copyIdx])
-		  normalFilterIndices.push_back(copyIdx);
+    if(ghostPointsPos[copyIdx])
+      ghostPointIndices.push_back(copyIdx);
+    if(normalFilterPos[copyIdx])
+      normalFilterIndices.push_back(copyIdx);
   }
   }
-	  else  if(not(gpActive) && fsActive && pfActive)
-	  {
+    else  if(not(gpActive) && fsActive && pfActive)
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -256,8 +256,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -271,30 +271,30 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       //Floor separation
       if(fabs(input_->points[idx].z) < fsRange)
       {
-    	  if(fabs(output.points[idx].normal_z) > fsAngle)
-    	  {
-    		  floorPositions[idx] = true;
-    		  continue;
-    	  }
+        if(fabs(output.points[idx].normal_z) > fsAngle)
+        {
+          floorPositions[idx] = true;
+          continue;
+        }
       }
 
       //Normal filtration
       if(fabs(n[2]) < pfAngleHigh && fabs(n[2]) > pfAngleLow)
       {
-    	  normalFilterPos[idx]=true;
-    	  continue;
+        normalFilterPos[idx]=true;
+        continue;
       }
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(floorPositions[copyIdx])
-		  floorIndices.push_back(copyIdx);
-	  if(normalFilterPos[copyIdx])
-		  normalFilterIndices.push_back(copyIdx);
+    if(floorPositions[copyIdx])
+      floorIndices.push_back(copyIdx);
+    if(normalFilterPos[copyIdx])
+      normalFilterIndices.push_back(copyIdx);
   }
   }
-	  else  if(not(gpActive) && not(fsActive) && pfActive)
-	  {
+    else  if(not(gpActive) && not(fsActive) && pfActive)
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -309,8 +309,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -324,19 +324,19 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       //Normal filtration
       if(fabs(n[2]) < pfAngleHigh && fabs(n[2]) > pfAngleLow)
       {
-    	  normalFilterPos[idx]=true;
-    	  continue;
+        normalFilterPos[idx]=true;
+        continue;
       }
 
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(normalFilterPos[copyIdx])
-		  normalFilterIndices.push_back(copyIdx);
+    if(normalFilterPos[copyIdx])
+      normalFilterIndices.push_back(copyIdx);
   }
   }
-	  else  if(not(gpActive) && fsActive && not(pfActive))
-	  {
+    else  if(not(gpActive) && fsActive && not(pfActive))
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -351,8 +351,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -366,21 +366,21 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       //Floor separation
       if(fabs(input_->points[idx].z) < fsRange)
       {
-    	  if(fabs(output.points[idx].normal_z) > fsAngle)
-    	  {
-    		  floorPositions[idx] = true;
-    		  continue;
-    	  }
+        if(fabs(output.points[idx].normal_z) > fsAngle)
+        {
+          floorPositions[idx] = true;
+          continue;
+        }
       }
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(floorPositions[copyIdx])
-		  floorIndices.push_back(copyIdx);
+    if(floorPositions[copyIdx])
+      floorIndices.push_back(copyIdx);
   }
   }
-	  else  if(gpActive && not(fsActive) && not(pfActive))
-	  {
+    else  if(gpActive && not(fsActive) && not(pfActive))
+    {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -395,8 +395,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -414,18 +414,18 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       pointPos.normalize();
       if( fabs(pointPos.dot(n.head(3))) < gpAngle )
       {
-    	  ghostPointsPos[idx]=true;
-    	  continue;
+        ghostPointsPos[idx]=true;
+        continue;
       }
 
     }
   for(size_t copyIdx = 0; copyIdx < floorPositions.size();copyIdx++)
   {
-	  if(ghostPointsPos[copyIdx])
-		  ghostPointIndices.push_back(copyIdx);
+    if(ghostPointsPos[copyIdx])
+      ghostPointIndices.push_back(copyIdx);
   }
   }
-	  else {
+    else {
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
     // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
@@ -440,8 +440,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
 
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -460,7 +460,7 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 #ifdef _OPENMP
 #pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
 #endif
-     // Iterating over the entire index vector
+    // Iterating over the entire index vector
     for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
     {
       if (!isFinite ((*input_)[(*indices_)[idx]]) ||
@@ -474,8 +474,8 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
 
       Eigen::Vector4f n;
       pcl::computePointNormal<PointInT> (*surface_, nn_indices,
-                                         n,
-                                         output.points[idx].curvature);
+                                        n,
+                                        output.points[idx].curvature);
                           
       output.points[idx].normal_x = n[0];
       output.points[idx].normal_y = n[1];
@@ -484,7 +484,7 @@ pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &ou
       flipNormalTowardsViewpoint (input_->points[(*indices_)[idx]], vpx_, vpy_, vpz_,
                                   output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2]);
     }
- }
+}
 }
 
 #define PCL_INSTANTIATE_NormalEstimationOMP(T,NT) template class PCL_EXPORTS pcl::NormalEstimationOMP<T,NT>;

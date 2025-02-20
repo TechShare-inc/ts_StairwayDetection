@@ -46,17 +46,17 @@ public:
 
     inline void setWidthReq(Eigen::Vector2f input)
     {
-    	widthReq = input;
+        widthReq = input;
     }
 
     inline void setTreadDepth(Eigen::Vector2f input)
     {
-    	treadDepth = input;
+        treadDepth = input;
     }
 
     inline void setRiserHeight(Eigen::Vector2f input)
     {
-    	riserHeight = input;
+        riserHeight = input;
     }
 
     void filterSc(regions& stairCases, regions& stairWalls);

@@ -52,7 +52,7 @@ public:
 
     inline void setRobotAngle(double angle)
     {
-    	robAngle = angle/180*M_PI;
+        robAngle = angle/180*M_PI;
     }
 
     inline void setGpActive(bool input)
@@ -62,13 +62,13 @@ public:
 
     inline void setDsFlag(bool input)
     {
-    	dsFlag = input;
+        dsFlag = input;
     }
 
     inline
     void setNeSearch(int method)
     {
-    	neNeighMethod = method;
+        neNeighMethod = method;
     }
 
     inline
@@ -121,7 +121,7 @@ public:
 
     inline void setDsMethod(bool input)
     {
-    	dsMethod = input;
+        dsMethod = input;
     }
 
     PointCloudT::Ptr inputCloud;
@@ -141,12 +141,12 @@ public:
 
     inline void setNeMethod(int value)
     {
-    	neMethod = value;
+        neMethod = value;
     }
 
     inline void getNeTime(double& time)
     {
-    	time = neTime;
+        time = neTime;
     }
 
     bool dsFlag;

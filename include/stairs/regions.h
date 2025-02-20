@@ -45,7 +45,8 @@ public:
     void generateCenterCloud();
 
     void createBorders();
-    void showBorders(boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer);
+    // void showBorders(boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer);
+    void showBorders(std::shared_ptr<pcl::visualization::PCLVisualizer> viewer);
 
     void saveRegion (std::string savePath);
     void loadRegion (std::string loadPath);
@@ -128,7 +129,7 @@ public:
 
 inline bool compareRefs (segmentPatch first, segmentPatch second)
 {
-  return (first.recongitionRefs > second.recongitionRefs);
+    return (first.recongitionRefs > second.recongitionRefs);
 }
 
 

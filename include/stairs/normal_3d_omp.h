@@ -54,8 +54,10 @@ namespace pcl
   class NormalEstimationOMP: public NormalEstimation<PointInT, PointOutT>
   {
     public:
-      typedef boost::shared_ptr<NormalEstimationOMP<PointInT, PointOutT> > Ptr;
-      typedef boost::shared_ptr<const NormalEstimationOMP<PointInT, PointOutT> > ConstPtr;
+      // typedef boost::shared_ptr<NormalEstimationOMP<PointInT, PointOutT> > Ptr;
+      // typedef boost::shared_ptr<const NormalEstimationOMP<PointInT, PointOutT> > ConstPtr;
+      typedef std::shared_ptr<NormalEstimationOMP<PointInT, PointOutT> > Ptr;
+      typedef std::shared_ptr<const NormalEstimationOMP<PointInT, PointOutT> > ConstPtr;
       using NormalEstimation<PointInT, PointOutT>::feature_name_;
       using NormalEstimation<PointInT, PointOutT>::getClassName;
       using NormalEstimation<PointInT, PointOutT>::indices_;
@@ -96,49 +98,49 @@ namespace pcl
 
       inline void getFloorIndices(std::vector<int>& output)
       {
-    	  output = floorIndices;
+        output = floorIndices;
       }
 
       inline void getGhostIndices(std::vector<int>& output)
       {
-    	  output = ghostPointIndices;
+        output = ghostPointIndices;
       }
 
       inline void getNormalIndices(std::vector<int>& output)
       {
-    	  output = normalFilterIndices;
+        output = normalFilterIndices;
       }
 
       inline void setGpActive(bool input)
       {
-    	  gpActive = input;
+        gpActive = input;
       }
       inline void setGpAngle(double input)
       {
-    	  gpAngle = input;
+        gpAngle = input;
       }
 
       inline void setFsActive(bool input)
       {
-    	  fsActive = input;
+        fsActive = input;
       }
       inline void setFsAngle(double input)
       {
-    	  fsAngle = cos(input/180*M_PI);
+        fsAngle = cos(input/180*M_PI);
       }
       inline void setFsRange(double input)
       {
-    	  fsRange = input;
+        fsRange = input;
       }
 
       inline void setPfActive(bool input)
       {
-    	  pfActive = input;
+        pfActive = input;
       }
       inline void setPfAngle(double input)
       {
-    	  pfAngleHigh = cos(input/180*M_PI);
-    	  pfAngleLow = cos((90-input)/180*M_PI);
+        pfAngleHigh = cos(input/180*M_PI);
+        pfAngleLow = cos((90-input)/180*M_PI);
       }
 
       /** \brief Initialize the scheduler and set the number of threads to use.

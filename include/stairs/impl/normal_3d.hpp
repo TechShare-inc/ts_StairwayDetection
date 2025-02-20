@@ -57,8 +57,8 @@ pcl::NormalEstimationT<PointInT, PointOutT>::computeFeature (PointCloudOut &outp
   if (input_->is_dense)
   {
     // Iterating over the entire index vector
-	  if(not(normalFilterFlag))
-	  {
+    if(not(normalFilterFlag))
+    {
     for (size_t idx = 0; idx < indices_->size (); ++idx)
     {
       if (this->searchForNeighbors ((*indices_)[idx], search_parameter_, nn_indices, nn_dists) == 0)
@@ -77,38 +77,38 @@ pcl::NormalEstimationT<PointInT, PointOutT>::computeFeature (PointCloudOut &outp
 //	    std::cout<<"Was here with: "<<normalFilterIndices.size()<<std::endl;
 
     }
-	  }
-	  else if(normalFilterFlag)
-	  {
-		  double timing = 0;
-		    for (size_t idx = 0; idx < indices_->size (); ++idx)
-		    {
+    }
+    else if(normalFilterFlag)
+    {
+      double timing = 0;
+        for (size_t idx = 0; idx < indices_->size (); ++idx)
+        {
 
-		      if (this->searchForNeighbors ((*indices_)[idx], search_parameter_, nn_indices, nn_dists) == 0)
-		      {
-		        output.points[idx].normal[0] = output.points[idx].normal[1] = output.points[idx].normal[2] = output.points[idx].curvature = std::numeric_limits<float>::quiet_NaN ();
+          if (this->searchForNeighbors ((*indices_)[idx], search_parameter_, nn_indices, nn_dists) == 0)
+          {
+            output.points[idx].normal[0] = output.points[idx].normal[1] = output.points[idx].normal[2] = output.points[idx].curvature = std::numeric_limits<float>::quiet_NaN ();
 
-		        output.is_dense = false;
-		        continue;
-		      }
-		      double t1 = pcl::getTime();
-		      computePointNormal (*surface_, nn_indices,
-		                          output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2], output.points[idx].curvature);
+            output.is_dense = false;
+            continue;
+          }
+          double t1 = pcl::getTime();
+          computePointNormal (*surface_, nn_indices,
+                              output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2], output.points[idx].curvature);
 
-		      double t2 = pcl::getTime();
-		      timing += t2-t1;
+          double t2 = pcl::getTime();
+          timing += t2-t1;
 
-		      flipNormalTowardsViewpoint (input_->points[(*indices_)[idx]], vpx_, vpy_, vpz_,
-		                                  output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2]);
+          flipNormalTowardsViewpoint (input_->points[(*indices_)[idx]], vpx_, vpy_, vpz_,
+                                      output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2]);
 
-		      if(fabs(output.points[idx].normal[2]) < normalFilterValue && 1-fabs(output.points[idx].normal[2]) > normalFilterValue)
-		      {
-		    	  normalFilterIndices.push_back((*indices_)[idx]);
-		      }
-		    }
+          if(fabs(output.points[idx].normal[2]) < normalFilterValue && 1-fabs(output.points[idx].normal[2]) > normalFilterValue)
+          {
+            normalFilterIndices.push_back((*indices_)[idx]);
+          }
+        }
 
 //		    std::cout<<"Was here with: "<<normalFilterIndices.size()<<"computing took: "<< timing <<std::endl;
-	  }
+    }
   }
   else
   {

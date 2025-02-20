@@ -421,7 +421,7 @@ pcl::RegionGrowingOwn<PointT, NormalT>::applySmoothRegionGrowingAlgorithm ()
 
   while (segmented_pts_num < num_of_pts)
   {
-   int pts_in_segment;
+  int pts_in_segment;
     pts_in_segment = growRegion (seed, number_of_segments);
     segmented_pts_num += pts_in_segment;
     num_pts_in_segment_.push_back (pts_in_segment);
